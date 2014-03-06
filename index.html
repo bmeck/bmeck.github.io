@@ -33,3 +33,14 @@ These binaries will check for trailing zip archives in themselves and extract to
 <a href=mac_node_extracting download=mac_node_extracting>mac binary x64</a>
 </li>
 </ul>
+
+<h2>notes</h2>
+
+<ul>
+<li>
+default location to extract to is <code>$TMPDIR</code>
+</li>
+<li>
+if NODE_CHANNEL_FD exists (such as using child_process.fork()), the archive will not be extracted/bootstrapped again
+</li>
+</ul>
