@@ -1,0 +1,35 @@
+<!doctype html>
+<!--
+A site so ugly it will drive away casuals
+Make it pretty once more people have tested the binaries...
+-->
+<h1>Self extracting Node.js binaries</h1>
+
+These binaries add support for using source code bundling.
+These binaries will check for trailing zip archives in themselves and extract to temporary directories to run.
+
+<h2>how to</h2><pre><code>   # create our zip
+   # will be opened as if you had called `node $PATH_TO_MY_MODULE`
+   zip -r bundle.zip $PATH_TO_MY_MODULE
+
+   # add trailing zip archive to extracting node
+   cat node_extracting bundle.zip > node_bundle
+
+   # make bundled node executable
+   chmod +x node_bundle
+
+   # run
+   ./node_bundle
+</code></pre>
+
+<h2>links</h2>
+
+<ul>
+<li>
+<a href=linux_node_extracting download=linux_node_extracting>linux binary x64</a>
+</li><li>
+<a href=smartos_node_extracting download=smartos_node_extracting>smartos binary x64</a>
+</li><li>
+<a href=mac_node_extracting download=mac_node_extracting>mac binary x64</a>
+</li>
+</ul>
