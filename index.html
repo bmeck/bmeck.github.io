@@ -31,19 +31,26 @@ Make it pretty once more people have tested the binaries...
      color: #070;
    }
 </style>
-<h1>Self extracting Node.js binaries</h1>
+<h1>Bundled Node.js binaries</h1>
 
 <p>
-These are compiled from <a href=//github.com/bmeck/node/tree/extracting>my fork</a> of node.
+These are compiled from <a href=//github.com/bmeck/node/tree/v0.10-bundle>my fork</a> of node.
 The binaries below add support for source code bundling.
-They accomplish this by checking for trailing zip archives at the end of the executable and will extract to temporary directories and run.
+They accomplish this by checking for trailing zip archives at the end of the executable.
+Shared libraries will be loaded via temporary files on disk, but other files will be loaded from memory.
+
+<p>
+Something to note is including assets in your bundle is likely to break it for now (such as .html files).
+This is due to loading files from memory.
+However, if you need to / want to patch this to work you can use <code>require.readResourceSync(path)</code> or <code>require.createReadStream(path)</code>
+Discussion with the core node team is in the works for standardizing these methods.
 
 <h2>How To</h2><pre><code>   <span class=comment># create our zip
    # will be opened as if you had called `node $PATH_TO_MY_MODULE`</span>
    zip -r bundle.zip $PATH_TO_MY_MODULE
 
-   <span class=comment># add trailing zip archive to extracting node</span>
-   cat node_extracting bundle.zip &gt; node_bundle
+   <span class=comment># add trailing zip archive to bundled node</span>
+   cat node_bundled bundle.zip &gt; node_bundle
 
    <span class=comment># make bundled node executable</span>
    chmod +x node_bundle
@@ -56,11 +63,13 @@ They accomplish this by checking for trailing zip archives at the end of the exe
 
 <ul>
 <li>
-<a href=linux_node_extracting download=linux_node_extracting>node v0.11.11 linux x64</a>
+<a href=linux_node_bundled download=linux_node_bundled>node v0.10.26 linux x64</a>
 </li><li>
-<a href=smartos_node_extracting download=smartos_node_extracting>node v0.11.11 smartos x64</a>
+<a href=smartos_node_bundled download=smartos_node_bundled>node v0.10.26 smartos x64</a>
 </li><li>
-<a href=mac_node_extracting download=mac_node_extracting>node v0.11.11 mac x64</a>
+<a href=mac_node_bundled download=mac_node_bundled>node v0.10.26 mac x64</a>
+</li><li>
+<a href=windows_node_bundled download=windows_node_bundled>windows v0.10.26 mac x64</a>
 </li>
 </ul>
 
@@ -68,9 +77,9 @@ They accomplish this by checking for trailing zip archives at the end of the exe
 
 <ul>
 <li>
-default location to extract to is <code>$TMPDIR || "./tmp"</code> make sure you have permissions to write there.
+default location to extract shared libraries to is <code>$TMPDIR || "./tmp"</code> make sure you have permissions to write there.
 </li>
 <li>
-if <code>NODE_CHANNEL_FD</code> exists (such as using <code>child_process.fork())</code>, the archive will not be extracted/bootstrapped again
+if <code>NODE_CHANNEL_FD</code> exists (such as using <code>child_process.fork())</code>, the archive will not use the <code>main</code> file from the archive's <code>package.json</code>
 </li>
 </ul>
